@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PAY BITCH PAY</title>
+<style>
+    body {
+        margin: 0;
+        background: black;
+        color: white;
+        font-family: "Times New Roman", serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        text-align: center;
+        overflow: hidden;
+    }
+
+    #container {
+        max-width: 600px;
+    }
+
+    button {
+        font-family: "Times New Roman", serif;
+        color: white;
+        background: #222;
+        border: 2px solid white;
+        padding: 15px 40px;
+        font-size: 20px;
+        cursor: pointer;
+        margin: 20px;
+        transition: 0.3s;
+    }
+
+    button:hover {
+        background: #444;
+    }
+
+    video {
+        display: none;
+        width: 100vw;
+        height: 100vh;
+        object-fit: cover;
+    }
+
+    #glitch {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: repeating-linear-gradient(
+            black 0px,
+            #111 2px,
+            black 4px
+        );
+        opacity: 0;
+        animation: glitchFade 1s forwards;
+    }
+
+    @keyframes glitchFade {
+        0% { opacity: 0; }
+        100% { opacity: 1; }
+    }
+</style>
+</head>
+<body>
+
+<div id="container">
+    <h1>PAY</h1>
+    <button onclick="startPrank()">PAY NOW</button>
+    <button onclick="startPrank()">PAY BITCH</button>
+</div>
+
+<video id="vid" playsinline>
+    <source src="Jeff_Woods02.mp4" type="video/mp4">
+</video>
+
+<audio id="ominous" loop>
+    <source src="ominous.mp3" type="audio/mpeg">
+</audio>
+
+<audio id="prankvoice">
+    <source src="pranked_voice.mp3" type="audio/mpeg">
+</audio>
+
+<div id="glitch"></div>
+
+<script>
+    const video = document.getElementById("vid");
+    const ominous = document.getElementById("ominous");
+    const prankvoice = document.getElementById("prankvoice");
+    const glitch = document.getElementById("glitch");
+
+    const prankImages = [
+        "pranked1.jpg",
+        "pranked2.jpg",
+        "pranked3.jpg"
+    ];
+
+    function startPrank() {
+        if (video.requestFullscreen) video.requestFullscreen();
+        video.style.display = "block";
+        video.play();
+        ominous.volume = 0.4;
+        ominous.play();
+
+        video.onplay = () => {
+            ominous.pause();
+        };
+
+        video.onended = () => {
+            glitch.style.display = "block";
+
+            prankvoice.volume = 0.8; 
+            prankvoice.play();
+
+            prankImages.forEach((img, i) => {
+                setTimeout(() => {
+                    const link = document.createElement("a");
+                    link.href = img;
+                    link.download = img;
+                    link.click();
+                }, 500 * i);
+            });
+        };
+    }
+</script>
+
+</body>
+</html>
