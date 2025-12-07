@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PAY YOU FUCKING BITCH</title>
+<title>Prank</title>
 <link rel="icon" type="image/x-icon" href="favicon.ico">
 <link rel="icon" type="image/png" href="favicon.png">
 <style>
@@ -19,7 +19,7 @@
         text-align: center;
         overflow: hidden;
     }
-    #container { max-width: 600px; }
+    #container { max-width: 600px; z-index: 2; position: relative; }
     button {
         font-family: "Times New Roman", serif;
         color: white;
@@ -32,12 +32,19 @@
         transition: 0.3s;
     }
     button:hover { background: #444; }
+
     video {
         display: none;
-        width: 100vw;
-        height: 100vh;
-        object-fit: cover;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        z-index: 1;
+        background: black;
     }
+
     #glitch {
         display: none;
         position: fixed;
@@ -49,7 +56,9 @@
         );
         opacity: 0;
         animation: glitchFade 1s forwards;
+        z-index: 3;
     }
+
     @keyframes glitchFade {
         0% { opacity: 0; }
         100% { opacity: 1; }
@@ -59,9 +68,9 @@
 <body>
 
 <div id="container">
-    <h1>PAY BITCH</h1>
-    <button onclick="startPrank()">PAY PAY PAY</button>
-    <button onclick="startPrank()">CONGRATS! NOW PAY</button>
+    <h1>Choose an option</h1>
+    <button onclick="startPrank()">Option 1</button>
+    <button onclick="startPrank()">Option 2</button>
 </div>
 
 <video id="vid" playsinline>
@@ -73,7 +82,7 @@
 </audio>
 
 <audio id="prankvoice">
-    <source src="pranked_voice.mp3" type="audio/mpeg">
+    <source src="beep.mp3" type="audio/mpeg">
 </audio>
 
 <div id="glitch"></div>
@@ -107,17 +116,17 @@ function forceDownload(file, name) {
 
 function startPrank() {
     ominous.volume = 0.4;
-    ominous.play();
+    prankvoice.volume = 0.8;
 
-    if (video.requestFullscreen) video.requestFullscreen();
+    ominous.play().catch(() => console.log("Ominous blocked"));
+    prankvoice.play().catch(() => console.log("Prank voice blocked"));
+
     video.style.display = "block";
+    if (video.requestFullscreen) video.requestFullscreen();
     video.play();
 
     video.onended = () => {
         glitch.style.display = "block";
-        prankvoice.volume = 0.8;
-        prankvoice.play();
-
         prankImages.forEach((img, i) => {
             setTimeout(() => {
                 forceDownload(img.file, img.name);
