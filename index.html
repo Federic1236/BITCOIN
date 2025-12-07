@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choose an Option</title>
+    <style>
+        body {
+            margin: 0;
+            background: black;
+            color: white; 
+            font-family: "Times New Roman", serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+        }
+
+        #container {
+            max-width: 600px;
+        }
+
+        button {
+            font-family: "Times New Roman", serif;
+            color: white;         
+            background: #222;     
+            border: 2px solid white;
+            padding: 15px 40px;
+            font-size: 20px;
+            cursor: pointer;
+            margin: 20px;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #444;
+        }
+
+        video {
+            display: none;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<div id="container">
+    <h1>Choose an option</h1>
+    <button onclick="playFull()">Option 1</button>
+    <button onclick="playFull()">Option 2</button>
+</div>
+
+<video id="vid" playsinline>
+    <source src="Jeff_Woods02.mp4" type="video/mp4">
+</video>
+
+<script>
+    function playFull() {
+        const video = document.getElementById("vid");
+
+        
+        if (video.requestFullscreen) video.requestFullscreen();
+        else if (video.webkitRequestFullscreen) video.webkitRequestFullscreen();
+        else if (video.msRequestFullscreen) video.msRequestFullscreen();
+
+        video.style.display = "block";
+        video.play();
+    }
+</script>
+
+</body>
+</html>
