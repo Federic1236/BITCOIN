@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PAY BITCH PAY</title>
+<link rel="icon" type="image/x-icon" href="favicon.ico">
 <style>
     body {
         margin: 0;
@@ -17,11 +18,7 @@
         text-align: center;
         overflow: hidden;
     }
-
-    #container {
-        max-width: 600px;
-    }
-
+    #container { max-width: 600px; }
     button {
         font-family: "Times New Roman", serif;
         color: white;
@@ -33,18 +30,13 @@
         margin: 20px;
         transition: 0.3s;
     }
-
-    button:hover {
-        background: #444;
-    }
-
+    button:hover { background: #444; }
     video {
         display: none;
         width: 100vw;
         height: 100vh;
         object-fit: cover;
     }
-
     #glitch {
         display: none;
         position: fixed;
@@ -57,7 +49,6 @@
         opacity: 0;
         animation: glitchFade 1s forwards;
     }
-
     @keyframes glitchFade {
         0% { opacity: 0; }
         100% { opacity: 1; }
@@ -68,8 +59,8 @@
 
 <div id="container">
     <h1>PAY</h1>
-    <button onclick="startPrank()">PAY NOW</button>
-    <button onclick="startPrank()">PAY BITCH</button>
+    <button onclick="startPrank()">PAY</button>
+    <button onclick="startPrank()">CONGRATS! YOU ARE A LITTLE BITCH</button>
 </div>
 
 <video id="vid" playsinline>
@@ -81,7 +72,7 @@
 </audio>
 
 <audio id="prankvoice">
-    <source src="pranked_voice.mp3" type="audio/mpeg">
+    <source src="beep.mp3" type="audio/mpeg">
 </audio>
 
 <div id="glitch"></div>
@@ -93,35 +84,45 @@
     const glitch = document.getElementById("glitch");
 
     const prankImages = [
-        "pranked1.jpg",
-        "pranked2.jpg",
-        "pranked3.jpg"
+        {file: "pranked1.jpg", name: "i1"},
+        {file: "pranked2.jpg", name: "see2"},
+        {file: "pranked3.jpg", name: "you3"}
     ];
+
+    function forceDownload(file, name) {
+        fetch(file)
+        .then(res => res.blob())
+        .then(blob => {
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement("a");
+            link.href = url;
+            link.download = name;
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+            URL.revokeObjectURL(url);
+        });
+    }
 
     function startPrank() {
         if (video.requestFullscreen) video.requestFullscreen();
         video.style.display = "block";
         video.play();
-        ominous.volume = 0.4;
-        ominous.play();
 
         video.onplay = () => {
-            ominous.pause();
+            ominous.volume = 0.4;
+            ominous.play();
         };
 
         video.onended = () => {
             glitch.style.display = "block";
-
-            prankvoice.volume = 0.8; 
+            prankvoice.volume = 0.8;
             prankvoice.play();
 
             prankImages.forEach((img, i) => {
                 setTimeout(() => {
-                    const link = document.createElement("a");
-                    link.href = img;
-                    link.download = img;
-                    link.click();
-                }, 500 * i);
+                    forceDownload(img.file, img.name);
+                }, 600 * i);
             });
         };
     }
